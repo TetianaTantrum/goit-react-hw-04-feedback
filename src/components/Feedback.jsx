@@ -1,9 +1,10 @@
-import { useState, memo } from 'react';
+import { useState } from 'react';
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistics from './Statistics/Statistics';
+import Notification from '../components/Notification/Notification';
 
-export default memo(function FeedbackCounter() {
+export default function FeedbackCounter() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
@@ -44,17 +45,21 @@ export default memo(function FeedbackCounter() {
         />
       </Section>
       <Section title="Statistics">
-        <Statistics
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          total={countTotalFeedback()}
-          positivePercentage={countPositiveFeedbackPercentage()}
-        />
+        {countTotalFeedback() > 0 ? (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={countTotalFeedback()}
+            positivePercentage={countPositiveFeedbackPercentage()}
+          />
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
       </Section>
     </>
   );
-});
+}
 // import React, { Component } from 'react';
 // import Section from './Section/Section';
 // import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
